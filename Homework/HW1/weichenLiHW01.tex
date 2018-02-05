@@ -1,0 +1,311 @@
+\documentclass{article}
+
+%% preamble
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{cancel}
+
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 9.in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+\newcommand{\myhrule}{ \begin{center}\rule{.9\linewidth}{.25mm}\end{center} }
+\definecolor{darkgray}{rgb}{0.95,0.95,0.95}
+\definecolor{heavygray}{rgb}{0.05,0.05,0.05}
+\definecolor{foo}{rgb}{.8,0,.8}
+\newcommand{\pad}{\vspace{8pt}\noindent}
+\newcommand{\red}[1]{{\color{red}#1\color{black}}}
+\newcommand{\myhref}[2]{\href{#1}{\color{foo}\underline{#2}\color{black}}}
+
+\newcommand{\Mod}[1]{\ (\mathrm{mod}\ #1)}
+
+
+\begin{document}
+
+\title{CMDA 3634 Spring 2018 Homework 01}
+
+%% change this to your name
+\author{Weichen Li}
+\vspace{-64pt}\maketitle
+\begin{center}\underline{You must complete the following task by 5pm on Tuesday 02/06/18.}\end{center}
+Your write up for this homework should be presented in a {\LaTeX} formatted PDF document. You may copy the \LaTeX{} used to prepare this report as follows
+
+\begin{enumerate}
+\item Sign up for a \myhref{http://sharelatex.com}{http://sharelatex.com} account.
+\item Click on this  \myhref{https://www.sharelatex.com/read/jgjxnrcskhbc}{link} 
+\item Click on Menu/Copy Project.
+\item Modify the HW01.tex document to respond to the following questions. 
+\item Remember: click the Recompile button to rebuild the document when you have made edits.
+\item Remember: Change the author. 
+
+\end{enumerate}
+
+\pad \emph{Each student} must individually upload the following files to the CMDA 3634 Canvas page at \myhref{https://canvas.vt.edu}{https://canvas.vt.edu}
+
+\begin{enumerate}
+\item \verb|firstnameLastnameHW01.tex| {\LaTeX} file.
+\item Any figure files to be included by \verb|firstnameLastnameHW01.tex| file.
+\item \verb|firstnameLastnameHW01.pdf| PDF file.
+\item All source code ({\verb .c }) files.
+\end{enumerate}
+
+\pad You must complete this assignment on your own.
+
+\vspace{16pt}
+\begin{center}
+\underline{\bf 100 points will be awarded for a successful completion.}
+\vspace{8pt}\underline{\bf Extra credit will be awarded as appropriate.}
+\end{center}
+
+\newpage
+
+\section*{ElGamal Public-key Cyptography}
+
+Suppose there are two individuals, lets call them Alice and Bob, who wish to hold a conversation where only they can read the contents of each of their messages. That is, no outside eavesdropper can discern what the contents of each message is. Let's call Eve one such potential eavesdropper. For such a system, Alice and Bob need to agree on a way to encrypt and decrypt their messages in a completely public way such that Eve cannot decyrpt their messages.
+
+Let consider just the case of Bob sending an encrypted message to Alice. A possible cryptographic system that Alice and Bob could agree on is a {\em public-key cryptographic system}. Such a system would contain the following steps.
+\begin{enumerate}
+\item Alice chooses in secret a {\em secret key} and publicly broadcasts a {\em public key}.
+\item Bob uses the public key to encrypt his message and sends to Alice.
+\item Alice uses her secret key to decrypt Bob's message.
+\end{enumerate}
+In this process, Eve has access to the public key that was broadcast by Alice. She can also see the encrypted message send to Alice by Bob. The cryptographic system should therefore be such that 
+\begin{itemize}
+\item Encryption is easy using the public key.
+\item Decryption is easy using the secret key.
+\item Finding the secret key is {\em really hard}.
+\end{itemize}
+The public-key cryptographic system that we will consider in this class is the ElGamal encryption. We begin by introducing some concepts regarding integers modulo prime numbers. 
+
+\pad {\bf Integers Modulo Primes}: 
+While ElGamal encryption can work using more exotic mathematical structures, we will focus on integers modulo some prime $p$. We define the set $\mathbb{Z}_p$ to be the following numbers,
+\[
+\mathbb{Z}_p = \{1,2,3,\ldots,p-1\},
+\]
+for some prime number $p$. Since $p$ is prime, notice that $\mathbb{Z}_p$ is closed under multiplication modulo $p$. That is, 
+\[
+\forall  a, b\in \mathbb{Z}_p, \qquad ab\Mod{p} \in \mathbb{Z}_p.
+\]
+In particular, the product $ab$ cannot be zero. We'll drop the $\Mod{p}$ in products from now on, but note that all products are assumed to be modulo $p$ so that all numbers remain in the set $\mathbb{Z}_p$.
+
+A less obvious property of $\mathbb{Z}_p$ is that there will exist at least one number $g$ in $\mathbb{Z}_p$ such that 
+\[
+\mathbb{Z}_p = \left\{g,g^2,g^3,\ldots,g^{p-1}\right\}.
+\]
+We call such a number a {\em generator} of $\mathbb{Z}_p$. 
+
+Another less-than-obvious property is that for each number $a$ in $\mathbb{Z}_p$, we have that $a^{p-1} = 1\Mod{p}$. This fact is a consequence of a theorem known as Cauchy's Theorem in a field of mathematics called Group Theory. It is especially useful when we notice that, consequently, every number $a$ in $\mathbb{Z}_p$ has a multiplicative `inverse', denoted $a^{-1}$ in $\mathbb{Z}_p$, such that $aa^{-1} = 1$. In particular, $a^{-1} = a^{p-2}$. 
+
+\vspace*{0.5em}
+
+\pad{\bf Key Generation}:
+The key generation for ElGamal encryption works as follows.
+\begin{enumerate}
+\item Alice chooses prime number $p$.
+\item Alice selects a generator $g$ of the group $\mathbb{Z}_p$.
+\item Alice chooses, in secret, a number $x$ in $\mathbb{Z}_p$ and computes $h=g^x$.
+\item Alice publishes the set $(p,g,h)$ as her public key and retains $x$ as her secret key. 
+\end{enumerate}
+
+\pad{\bf Encryption}:
+The ElGamal encryption for a message $m$ works as follows. We'll suppose for simplicity that the message $m$ is already a number in $\mathbb{Z}_p$ and consider how to cast actual message text into numbers in $\mathbb{Z}_p$ later. 
+\begin{enumerate}
+\item Bob chooses a random $y$ in $\mathbb{Z}_p$.
+\item Bob computes $a = g^y$ and $s = h^y$.
+\item Bob computes the cyphertext $\hat{m}$ as $\hat{m} = ms$. 
+\item Bob sends the pair $(a,\hat{m})$ to Alice. 
+\end{enumerate}
+
+\pad{\bf Decryption}:
+The ElGamal decryption of the cyphertext $\hat{m}$ works as follows. 
+\begin{enumerate}
+\item Alice uses her secret key $x$ to compute the shared secret $s = a^x = g^{xy}$.
+\item Alice computes $s^{-1} = s^{p-2}$.
+\item Alice decrypts the intended message as $\hat{m}s^{-1} = m ss^{-1} = m$. 
+\end{enumerate}
+
+\pad{\bf Security}:
+The security of the ElGamal encryption algorithm relies on the problem of finding the secret key $x$ being difficult. Since Eve knows both $g$ and $h$ from Alice's public key, this amounts to her finding $x$ such that 
+\[
+g^x = h\Mod{p}.
+\]
+This problem is known as the {\em discrete logarithm problem} and is considered to be computationally intractable for large prime numbers $p$. Indeed, our goal for the assignments in this class will be to implement our own ElGamal cryptographic system and determine how big the prime number $p$ must be before we simply will not have the computational power to crack it. 
+
+
+%\myhrule
+\section*{Questions}
+
+\noindent{\bf Q1}(5 points) Show that 2, 6, 7, and 11 are all generators of $\mathbb{Z}_{13}$.
+\begin{align}
+    \mathbb{Z}_{13} &= \{1,2,3,\ldots,12\} \\
+    2: \{2, 2^2, 2^3, \ldots, 2^{12}\} &= \{2, 4, 8, \ldots, 1\} \in \mathbb{Z}_{13} \\
+    6: \{6, 6^2, 6^3, \ldots, 6^{12}\} &= \{6, 10, 8 \ldots, 1\} \in \mathbb{Z}_{13} \\
+    7:  \{7, 7^2, 7^3, \ldots, 7^{12}\} &= \{7, 10, 5, \ldots, 1\} \in \mathbb{Z}_{13} \\
+    11:  \{11, 11^2, 11^3, \ldots, 11^{12}\} &= \{11, 4, 5, \ldots, 1\} \in \mathbb{Z}_{13}
+\end {align}
+\vspace*{1em}
+
+\noindent{\bf Q2}(5 points) What is $6^{-1}$ in $\mathbb{Z}_{7}$?
+\begin{align}
+    6*6^{-1} &= 1 \\
+    6^{-1} &= 6^5 \\
+    6^{-1} &= 6
+\end{align}
+\vspace*{1em}
+
+\noindent{\bf Q3.1}(5 points) Given an ElGamal public-key of $(11,2,3)$, that is the prime $p = 11$, the generator $g = 2$, and $h = 3$, encrypt the message $m = 9$ using $y = 2$. 
+\begin{align}
+    a &= g^y = 2^2 = 4 \\
+    s &= h^y = 3^2 = 9 \\
+    \hat{m} &= ms = 4 \\
+    (a, \hat{m}) &= (4, 4)
+\end{align}
+\vspace*{1em}
+
+\noindent{\bf Q3.2}(10 points) Given that the secret key in the ElGamal public key in Q3.1 is $x=8$, decrypt the cyphertext you computed in Q3.1 and confirm that you recover the original message. 
+\begin{align}
+    s &= a^x = 4^8 = 9 = g^{xy} = 2^{8y} = 2^{16} \\
+    s^{-1} &= s^{p - 2} = 9^9 = 5 \\
+    \hat{m}s^{-1} &= mss^{-1} = m \\
+    m &= 4 \times 5 = 9
+\end{align}
+\vspace*{1em}
+
+\noindent{\bf Q4.1}(20 points) In order to write a C program to perform an ElGamal encryption, we'll need a few simple functions to help out with prime numbers. One such function is the greatest common divisor (GCD) of two numbers. This function inputs two numbers $a$ and $b$ and returns the greatest integer $z$ such that $z$ divides both $a$ and $b$. For example $GCD(15,25) = 5$ since 5 divides both 15 and 25. 
+
+Without loss of generality let's assume $a\geq b$. The algorithm to compute the GCD of $a$ and $b$ can be written compactly as 
+\[
+GCD(a,b) = \begin{cases}  
+GCD(b, a\Mod{b}) & \mathrm{if}\; b\neq 0, \\
+a & \mathrm{if}\; b = 0. \\
+\end{cases}
+\]
+Write a C program {\verb gcd.c } which replicates the following functionality.
+
+\begin{verbatim}
+    >./gcd
+    Enter the first number: 15
+    Enter the second number: 25
+    The greatest common divisor of 15 and 25 is 5.
+\end{verbatim}
+That is, your program should read in two values from the user and print the greatest common divisor of the two values. To read in values use the {\verb scanf } function. 
+
+HINT: In C it is legal for functions to call themselves, i.e. make recursive functions.
+
+\vspace*{1em}
+\noindent{\bf Q4.2}(5 points) Another useful function is the least common multiple (LCM) of two numbers. This function inputs two numbers $a$ and $b$ and returns the smallest number $z$ such that both $a$ and $b$ divide $z$. For example $LCM(32,20) = 160$. 
+
+The algorithm to compute the LCM of $a$ and $b$ can be written using the GCD function as follows
+\[
+LCM(a,b) = \frac{ab}{GCD(a,b)}.
+\]
+Write a C program {\verb lcm.c } which replicates the following functionality.
+\begin{verbatim}
+    >./lcm
+    Enter the first number: 32
+    Enter the second number: 20
+    The least common multiple of 32 and 20 is 160.
+\end{verbatim}
+
+\vspace*{1em}
+\noindent{\bf Q4.3}(5 points) Two numbers $a$ and $b$ are considered coprime if the only positive number which divides both $a$ and $b$ is 1, i.e. $GCD(a,b) =1$. Write a C program {\verb isCoprime.c } which replicates the following functionality,
+
+\begin{verbatim}
+    >./isCoprime
+    Enter the first number: 16
+    Enter the second number: 9
+    16 and 9 are coprime.
+\end{verbatim}
+and 
+\begin{verbatim}
+    >./isCoprime
+    Enter the first number: 32
+    Enter the second number: 12
+    32 and 12 are not coprime.
+\end{verbatim}
+
+\vspace*{1em}
+\noindent{\bf Q5}(20 points) To generate public keys in the ElGamal encryption we'll need a way to select prime numbers. Write a C program {\verb isPrime.c } which replicates the following functionality,
+\begin{verbatim}
+    >./isPrime
+    Enter a number: 32
+    32 is not prime.
+\end{verbatim}
+and 
+\begin{verbatim}
+    >./isPrime
+    Enter a number: 17
+    17 is prime.
+\end{verbatim}
+There are many sophisticated ways to accomplish this but we are only interested in whether your program can correctly operate for the first several hundred prime numbers. Don't worry about being inefficient for now. 
+\vspace*{1em}
+
+\noindent{\bf Q6}(25 points) Once we have a prime number, the next task is to find a generator of $\mathbb{Z}_p$. If you experiment with some other numbers in Q1 you may notice that if $a$ is not a generator of $\mathbb{Z}_p$ then there will exist a number $r$, where $0<r<p-1$, such that $a^r = 1$. Therefore, for a number $g$ to be a generator of $\mathbb{Z}_p$ it must satisfy 
+\[
+g^r \neq 1, \quad \forall 0<r<p-1.
+\]
+Write a C program {\verb findGenerator.c } which replicates the following functionality,
+\begin{verbatim}
+    >./findGenerator
+    Enter a prime number: 11
+    2 is a generator of Z_11.
+\end{verbatim}
+
+\vspace*{1em}
+\noindent{\bf Bonus}(20 points) We are going to need to examine each part of our code to make sure we don't run into trouble when using very large integers. For each of your codes in this assignment, give some comments on whether you will encounter issues when your inputs become very large numbers. Will your program seem to `hang' due to computational load? Or fail to function correctly at all?
+\begin{verbatim}
+    >./gcd
+    Enter the first number: 2
+    Enter the second number: 222222222222222222222222222
+    The greatest common divisor of -1 and 2 is -1.
+\end{verbatim}
+gcd fails to function.
+\begin{verbatim}
+    >./lcm
+    Enter the first number: 5
+    Enter the second number: 5555555555555555555555555555
+    The least common multiple of 5 and -1 is 5.
+\end{verbatim}
+lcm has a similar error comparing to gcd.
+\begin{verbatim}
+    >./isCoprime
+    Enter the first number: 31364
+    Enter the second number: 1346234623465
+    1909859817 and 31364 are coprime.
+\end{verbatim}
+isCoprime fails as well.
+\begin{verbatim}
+    >./isPrime
+    Enter a number: 2835768726358764758
+    -809063210 is prime.
+\end{verbatim}
+isPrime fails to function when the input gets very large. It uses a for loop to check if the number can be divided by from 2 to half of itself, and the efficiency is pretty low. Also when the input gets large.
+\begin{verbatim}
+    >./findGenerator
+    Enter a prime number: 28374234567293845
+    1277705109 is not prime. You have to enter a prime number
+    >./findGenerator
+    Enter a prime number: 2384523423453245
+    530387005 is not prime. You have to enter a prime number
+    >./findGenerator
+    Enter a prime number: 1273461782634871263478
+\end{verbatim}
+findGenerator involves isPrime to check if the input is a prime number, so it is similar to the previous one. If I remove the check and enters a large number, the program hangs.
+%\myhrule
+
+%\begin{thebibliography}{9}
+%\bibitem{gol} Wikipedia -- description of the Game of Life
+%\url{https://en.wikipedia.org/wiki/Conway's_Game_of_Life}
+ 
+%\end{thebibliography}
+
+
+\end{document}
