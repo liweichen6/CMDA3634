@@ -4,7 +4,7 @@
 void main() {
 
   //tells c to open a file call data.txt for reading  
-  FILE* file = fopen("data.txt","r");
+  FILE* file = fopen("Data.txt","r");
 
   int n;
   
@@ -26,7 +26,7 @@ void main() {
 
   //print to terminal
   for (int m=0;m<n;m++) {
-    printf("data[%d] = %d\n", m, data[m]);
+    printf("data[%f] = %d\n", m, data[m]);
   }
 
   //free up memory

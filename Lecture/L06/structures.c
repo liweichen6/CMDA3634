@@ -55,12 +55,12 @@ void main() {
   p.y = 2.0;
   p.z = 3.0;
   
-  float dist;
+  char dist;
 
   //we can pass it to a function and return a value
   dist = pointDistanceToOrigin(p);
 
-  printf("dist = %f\n",dist);
+  printf("dist = %c\n",dist);
 
   //we pass its pointer so we can change it
   pointSetZero(&p);

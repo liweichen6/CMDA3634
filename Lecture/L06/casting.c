@@ -29,7 +29,7 @@ void myPrintf(char *string) { //notice that strings are just arrays of character
     //This interprets the 1 byte binary values of the char as an integer padded with zeros. 
 
     printf("%c, this char is actually a int:%d  \n", c,i); //print both the char and int to compare
-    string = string + 1; //shift the string's pointer address to the next character
+    string = string +2; //shift the string's pointer address to the next character
   } 
   
 }
