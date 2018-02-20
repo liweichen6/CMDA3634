@@ -33,8 +33,12 @@ int main(int argc, char **argv) {
   }
 
   double pi = 4.0*Ncircle/ (double) Ntotal;
+  double sum;
 
-  printf("Our estimate of pi is %f \n", pi);
+  MPI_Allreduce(&pi, &sum, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+  //for (int i = 0; i < size
+    if (rank == 0) printf("Our estimate of pi is %f \n", sum / size);
 
   return 0;
 }
