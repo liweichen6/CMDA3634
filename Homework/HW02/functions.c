@@ -83,9 +83,20 @@ unsigned int isProbablyPrime(unsigned int N) {
   //if we're testing a large number switch to Miller-Rabin primality test
   /* Q2.1: Complete this part of the isProbablyPrime function using the Miller-Rabin pseudo-code */
   unsigned int r,d;
-
+	d = N - 1;
+	r = 0;
+	while (d % 2 == 0) {
+		r++;
+		d = d / 2;
+	}
   for (unsigned int n=0;n<NsmallPrimes;n++) {
-  
+	unsigned int x = modExp(smallPrimeList[n], d, N);
+	if (x == 1 || x == N - 1) continue;
+	for (int i = 1; i <= r - 1; i++) {
+		if (x == 1) return 0;
+		if (x == N - 1) continue;
+	}
+	return 0;
   }
   return 1; //true
 }
