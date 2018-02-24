@@ -7,11 +7,29 @@
 //compute a*b mod p safely
 unsigned int modprod(unsigned int a, unsigned int b, unsigned int p) {
   /* Q1.2: Complete this function */
+	unsigned int za, ab;
+	za = a;
+	ab = 0;
+	while (b > 0) {
+		if (b % 2 == 1) ab = (ab + za) % p;
+		za = 2 * za % p;
+		b = b / 2;
+	}
+	return ab;
 }
 
 //compute a^b mod p safely
 unsigned int modExp(unsigned int a, unsigned int b, unsigned int p) {
   /* Q1.3: Complete this function */
+	unsigned int z, aExpb;
+	z = a;
+	aExpb = 1;
+	while (b > 0) {
+		if (b % 2 == 1) aExpb = modprod(aExpb, z, p);
+		z = modprod(z, z, p);
+		b = b / 2;
+	}
+	return aExpb;
 }
 
 //returns either 0 or 1 randomly
