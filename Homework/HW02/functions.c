@@ -93,6 +93,7 @@ unsigned int isProbablyPrime(unsigned int N) {
 	unsigned int x = modExp(smallPrimeList[n], d, N);
 	if (x == 1 || x == N - 1) continue;
 	for (int i = 1; i <= r - 1; i++) {
+		x = modprod(x, x, N);
 		if (x == 1) return 0;
 		if (x == N - 1) continue;
 	}
