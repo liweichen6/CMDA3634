@@ -105,4 +105,7 @@ unsigned int isProbablyPrime(unsigned int N) {
 //Finds a generator of Z_p using the assumption that p=2*q+1
 unsigned int findGenerator(unsigned int p) {
   /* Q3.3: complete this function and use the fact that p=2*q+1 to quickly find a generator */
+	for (unsigned int i = 2; i < p; i++) {
+		if ((modprod(i, i, p) == 1) && modExp(i, (p-1)/2, p) == 1) return i;
+	}
 }
