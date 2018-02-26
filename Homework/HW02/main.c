@@ -51,5 +51,14 @@ int main (int argc, char **argv) {
 	unsigned int g = findGenerator(p);
 	printf("g = %u is a generator of Z_%u \n", g, p);  
 
+	/* BONUS */
+	unsigned int x = rand() % (p + 1);
+	printf("Pick a random x = %d in Z_p.\n", x);
+	unsigned int h = modExp(g, x, p);
+	printf("Compute h = %d\n", h);
+
+	for (unsigned int i = 1; i < p; i++) {
+		if (h == modExp(g, i, p)) printf("Find x = %d by looping.\n", i);
+	}
   return 0;
 }
