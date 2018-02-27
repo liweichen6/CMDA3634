@@ -1,4 +1,4 @@
-#include "mympi.h"
+#include "mpi.h"
 
 void myMPI_Bcast(int *N, int root) {
 
@@ -57,4 +57,3 @@ void myMPI_Barrier() {
   if (rank==size-1) N=10;
   myMPI_Bcast(&N,size-1);
 }
-

@@ -23,17 +23,10 @@ int main (int argc, char **argv) {
 
   myMPI_Barrier();
 
-  //setup a test for the reduction
+  //Setup a test for the reduction
   float val = 1.0;
-  
   float sum = MPI_Reduction(val);
-
-  for (int r=0;r<size;r++) {
-    if (r==rank) {
-      printf("Rank %d has value %f after the reduction.\n", rank, sum);
-    }
-    myMPI_Barrier(); 
-  }
+  printf("Rank %d has value %f after reduction", rank, sum);
 
   MPI_Finalize();
   return 0;
