@@ -25,23 +25,26 @@ int main (int argc, char **argv) {
 
   /* Q3.1 Make rank 0 setup the ELGamal system and
     broadcast the public key information */
-  printf("Enter a number of bits: "); fflush(stdout);
-  char status = scanf("%u",&n);
+  if (rank == 0) {
+    printf("Enter a number of bits: "); fflush(stdout);
+    char status = scanf("%u",&n);
 
-  //make sure the input makes sense
-  if ((n<3)||(n>31)) {//Updated bounds. 2 is no good, 31 is actually ok
-    printf("Unsupported bit size.\n");
-    return 0;   
+    //make sure the input makes sense
+    if ((n<3)||(n>31)) {//Updated bounds. 2 is no good, 31 is actually ok
+      printf("Unsupported bit size.\n");
+      return 0;   
+    }
+    printf("\n");
   }
-  printf("\n");
 
   //declare storage for an ElGamal cryptosytem
   unsigned int p, g, h, x;
 
   //setup an ElGamal cryptosystem
-  setupElGamal(n,&p,&g,&h,&x);
-
-
+  if (rank == 0) setupElGamal(n,&p,&g,&h,&x);
+  MPI_Bcast(&p, 1, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&g, 1, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
+  MPI_Bcast(&h, 1, MPI_UNSIGNED, 0, MPI_COMM_WORLD);
 
   //Suppose we don't know the secret key. Use all the ranks to try and find it in parallel
   if (rank==0)
@@ -52,14 +55,27 @@ int main (int argc, char **argv) {
      distributed amounst the MPI ranks  */
   unsigned int N = p-1; //total loop size
   unsigned int start, end;
-  
-  start = 0; 
-  end = start + N;
+  unsigned int Ndis = N / size;
+ 
+  start = Ndis * rank; 
+  end = start + Ndis;
+  if (rank == size - 1 && end < N) end = N;
+
+  double startTime, endTime, runtime;
+
+  if (rank == 0) startTime = MPI_Wtime();
 
   //loop through the values from 'start' to 'end'
   for (unsigned int i=start;i<end;i++) {
-    if (modExp(g,i+1,p)==h)
+    if (modExp(g,i,p)==h)
       printf("Secret key found! x = %u \n", i);
+  }
+
+  MPI_Barrier(MPI_COMM_WORLD);
+  if (rank == 0) {
+    endTime = MPI_Wtime();
+    runtime = endTime - startTime;
+    printf("Total runtime = %fs.\nWork done = %d.\nThroughput = %f per second.\n", runtime, N, N / runtime);
   }
 
   MPI_Finalize();

@@ -146,12 +146,12 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a,
   /* implement the encryption routine for an ElGamal cryptographic system */
   unsigned int y = rand() % (p + 1);
   *a = modExp(g, y, p);
-  *m = modprod(*m, modExp(h, y, p);
+  *m = modprod(*m, modExp(h, y, p), p);
 }
 
 void ElGamalDecrypt(unsigned int *m, unsigned int a, 
                     unsigned int p, unsigned int x) {
 
   /* implement the decryption routine for an ElGamal cryptographic system */
-  *m = modprod(*m, modExp(modExp(a, x), p - 2));
+  *m = modprod(*m, modExp(modExp(a, x, p), p - 2, p), p);
 }
