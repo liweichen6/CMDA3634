@@ -1,0 +1,98 @@
+nr114 mpiexec -np 1 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2343239.
+g = 1934176 is a generator of Z_2343239
+Secret key: x = 1387195
+h = g^x = 1904443
+
+Using 1 processes to find the secret key...
+Secret key found! x = 1387195
+Total runtime = 12.767437s.
+Work done = 2343238.
+Throughput = 183532.372508 per second.
+nr114 mpiexec -np 2 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2343239.
+g = 1934176 is a generator of Z_2343239
+Secret key: x = 1387195
+h = g^x = 1904443
+
+Using 2 processes to find the secret key...
+Secret key found! x = 1387195
+Total runtime = 6.671999s.
+Work done = 2343238.
+Throughput = 351204.790026 per second.
+nr114 mpiexec -np 4 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2343239.
+g = 1934176 is a generator of Z_2343239
+Secret key: x = 1387195
+h = g^x = 1904443
+
+Using 4 processes to find the secret key...
+Secret key found! x = 1387195
+Total runtime = 3.377661s.
+Work done = 2343238.
+Throughput = 693745.762853 per second.
+nr114 mpiexec -np 8 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3608783.
+g = 781150 is a generator of Z_3608783
+Secret key: x = 425953
+h = g^x = 2894494
+
+Using 8 processes to find the secret key...
+Secret key found! x = 425953
+Total runtime = 2.858834s.
+Work done = 3608782.
+Throughput = 1262326.516456 per second.
+nr114 mpiexec -np 12 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 12 processes to find the secret key...
+Secret key found! x = 44165
+Total runtime = 1.879573s.
+Work done = 3597358.
+Throughput = 1913923.136783 per second.
+nr114 mpiexec -np 16 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 16 processes to find the secret key...
+Secret key found! x = 44165
+Total runtime = 1.427685s.
+Work done = 3597358.
+Throughput = 2519714.043136 per second.
+nr114 mpiexec -np 20 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3803543.
+g = 427969 is a generator of Z_3803543
+Secret key: x = 3563795
+h = g^x = 303775
+
+Using 20 processes to find the secret key...
+Secret key found! x = 3563795
+Total runtime = 1.207006s.
+Work done = 3803542.
+Throughput = 3151220.516295 per second.
