@@ -73,7 +73,7 @@ int main (int argc, char **argv) {
       printf("Secret key found! x = %u \n", i+1);
       found = 1;
     }
-    if (i % Ninterval == 0) {
+    if ((i - start) % Ninterval == 0) {
       MPI_Allreduce(&found, &foundSum, 1, MPI_UNSIGNED, MPI_SUM, MPI_COMM_WORLD);
       if (foundSum != 0) break;
     }  
