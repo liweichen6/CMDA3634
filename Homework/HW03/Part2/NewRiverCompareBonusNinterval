@@ -1,0 +1,86 @@
+nr097 mpiexec -np 20 main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 20 processes to find the secret key...
+Total runtime = 0.000852s.
+Work done = 3597358.
+Throughput = 4222897578.738315 per second.
+Current Ninterval = 1.
+nr097 make
+mpicc -I./. -O3 -g -o main.o -lm -c main.c
+mpicc  ././main.o ././functions.o -I./. -O3 -g -o main -lm
+nr097 mpiexec -np 20 main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 20 processes to find the secret key...
+Secret key found! x = 44165
+Total runtime = 0.307358s.
+Work done = 3597358.
+Throughput = 11704129.027999 per second.
+Current Ninterval = 10.
+nr097 make
+mpicc -I./. -O3 -g -o main.o -lm -c main.c
+mpicc  ././main.o ././functions.o -I./. -O3 -g -o main -lm
+nr097 mpiexec -np 20 main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 20 processes to find the secret key...
+Secret key found! x = 44165
+Total runtime = 0.290222s.
+Work done = 3597358.
+Throughput = 12395197.032753 per second.
+Current Ninterval = 100.
+nr097 make
+mpicc -I./. -O3 -g -o main.o -lm -c main.c
+mpicc  ././main.o ././functions.o -I./. -O3 -g -o main -lm
+nr097 mpiexec -np 20 main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 20 processes to find the secret key...
+Secret key found! x = 44165
+Total runtime = 0.299323s.
+Work done = 3597358.
+Throughput = 12018311.372185 per second.
+Current Ninterval = 1000.
+nr097 make
+mpicc -I./. -O3 -g -o main.o -lm -c main.c
+mpicc  ././main.o ././functions.o -I./. -O3 -g -o main -lm
+nr097 mpiexec -np 20 main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 3597359.
+g = 3561633 is a generator of Z_3597359
+Secret key: x = 44165
+h = g^x = 2731492
+
+Using 20 processes to find the secret key...
+Secret key found! x = 44165
+Total runtime = 0.336921s.
+Work done = 3597358.
+Throughput = 10677156.512747 per second.
+Current Ninterval = 10000.

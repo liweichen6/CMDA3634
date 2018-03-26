@@ -56,7 +56,8 @@ int main (int argc, char **argv) {
   unsigned int N = p-1; //total loop size
   unsigned int start, end;
   unsigned int Ndis = N / size;
-  unsigned int Ninterval = 10000;
+  unsigned int found, foundSum = 0;
+  unsigned int Ninterval = 1000;
 
   start = Ndis * rank; 
   end = start + Ndis;
@@ -70,8 +71,11 @@ int main (int argc, char **argv) {
   for (unsigned int i=start;i<end;i++) {
     if (modExp(g,i+1,p)==h) {
       printf("Secret key found! x = %u \n", i+1);
-      end = 1;
-      MPI_Bcast(&end, 1, MPI_UNSIGNED, rank, MPI_COMM_WORLD);
+      found = 1;
+    }
+    if (i % Ninterval == 0) {
+      MPI_Allreduce(&found, &foundSum, 1, MPI_UNSIGNED, MPI_SUM, MPI_COMM_WORLD);
+      if (foundSum != 0) break;
     }  
   }
 
@@ -80,6 +84,7 @@ int main (int argc, char **argv) {
     endTime = MPI_Wtime();
     runtime = endTime - startTime;
     printf("Total runtime = %fs.\nWork done = %d.\nThroughput = %f per second.\n", runtime, N, N / runtime);
+    printf("Current Ninterval = %d.\n", Ninterval);
   }
 
   MPI_Finalize();
