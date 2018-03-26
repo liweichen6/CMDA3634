@@ -56,9 +56,7 @@ int main (int argc, char **argv) {
   unsigned int N = p-1; //total loop size
   unsigned int start, end;
   unsigned int Ndis = N / size;
-
-  unsigned int quitLoop = 0;
-  unsigned int Ninterval = 100;
+  unsigned int Ninterval = 10000;
 
   start = Ndis * rank; 
   end = start + Ndis;
@@ -72,12 +70,9 @@ int main (int argc, char **argv) {
   for (unsigned int i=start;i<end;i++) {
     if (modExp(g,i+1,p)==h) {
       printf("Secret key found! x = %u \n", i+1);
-      quitLoop = 1;
+      end = 1;
+      MPI_Bcast(&end, 1, MPI_UNSIGNED, rank, MPI_COMM_WORLD);
     }  
-    if (i % Ninterval == 0) {
-      MPI_Bcast(&quitLoop, 1, MPI_UNSIGNED, rank, MPI_COMM_WORLD);
-      if (quitLoop == 1) break;
-    }
   }
 
   MPI_Barrier(MPI_COMM_WORLD);
