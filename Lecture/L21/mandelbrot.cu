@@ -124,7 +124,7 @@ int main(int argc, char **argv){
 
   // compute mandelbrot set
   mandelbrot <<<G, B>>> (Nre, Nim, cmin, cmax, count); 
-  cudaMemcpy(count_device, count, Nre * Nim * sizeof(float), cudaMemcpyDeviceToHost);
+  cudaMemcpy(count, count_device, Nre * Nim * sizeof(float), cudaMemcpyDeviceToHost);
 
   clock_t end = clock(); //start time in CPU cycles
   
