@@ -102,10 +102,12 @@ int main(int argc, char **argv){
   float *count_device;
   cudaMalloc(&count_device, Nre * Nim * sizeof(float));
 
-  int Bx, By = Nthreads;
+  int Bx = Nthreads;
+  int By = Nthreads;
   dim3 B(Bx, By, 1);
 
-  int Gx, Gy = (4096 + Nthreads - 1) / Nthreads;
+  int Gx = (4096 + Nthreads - 1) / Nthreads;
+  int Gy = (4096 + Nthreads - 1) / Nthreads;
   dim3 G(Gx, Gy, 1);
 
   // Parameters for a bounding box for "c" that generates an interesting image
