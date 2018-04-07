@@ -151,7 +151,7 @@ void setupElGamal(unsigned int n, unsigned int *p, unsigned int *g,
 void ElGamalEncrypt(unsigned int *m, unsigned int *a, unsigned int Nints, 
                     unsigned int p, unsigned int g, unsigned int h) {
 
-  /* Q2.1 Parallelize this function with OpenMP   */
+  /* Q2.2 Parallelize this function with OpenMP   */
 
   for (unsigned int i=0; i<Nints;i++) {
     //pick y in Z_p randomly
@@ -174,7 +174,7 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
 void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
                     unsigned int p, unsigned int x) {
 
-  /* Q2.1 Parallelize this function with OpenMP   */
+  /* Q2.2 Parallelize this function with OpenMP   */
 
   for (unsigned int i=0; i<Nints;i++) {
     //compute s = a^x
@@ -193,7 +193,9 @@ void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
 void padString(unsigned char* string, unsigned int charsPerInt) {
 
   /* Q1.2 Complete this function   */
-
+  while (strlen(string) % charsPerInt != 0) {
+    string = string + " ";
+  }
 }
 
 
@@ -201,8 +203,11 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
                       unsigned int  *Z,      unsigned int Nints) {
 
   /* Q1.3 Complete this function   */
-  /* Q2.2 Parallelize this function with OpenMP   */
-
+  /* Q2.1 Parallelize this function with OpenMP   */
+    #pragma omp parallel for
+    for (Nints = 0; Nints < Nchars; Nints++) {
+        Z[Nints] = (int) string[Nints];
+    }
 }
 
 
@@ -210,7 +215,10 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
                       unsigned char *string, unsigned int Nchars) {
 
   /* Q1.4 Complete this function   */
-  /* Q2.2 Parallelize this function with OpenMP   */
-
+  /* Q2.1 Parallelize this function with OpenMP   */
+    #pragma omp parallel for
+    for (Nchars = 0; Nchars < Nints; Nchars++) {
+        string[Nchars] = (char) Z[Nchars];
+    }
 }
 
