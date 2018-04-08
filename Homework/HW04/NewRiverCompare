@@ -1,0 +1,141 @@
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc -I./. -O3 -g -fopenmp -o functions.o -lm -c functions.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (639071,764050) (955933,1613521) (1347261,614246) (2448287,1026775) (651280,401649) (2511301,1461014) (809312,741071) (1289096,1807121) (785245,1876038) (77677,300960) (524847,1443101) (1149649,916172) (2008367,2331266) (327737,1767786) (760524,400727) (2366407,375356) (633785,230180) (1927420,2306700) (491359,2048459) (2203341,1945945) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 1 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 3.59907 seconds, throughput was 722659 values tested per second.
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (490249,453786) (368353,1026775) (384883,1461014) (1341820,741071) (1619380,1876038) (551479,1443101) (1435446,1767786) (434675,375356) (2511548,2306700) (1913045,1945945) (1753481,1431882) (770615,614246) (2238444,401649) (55747,1807121) (1490886,300960) (245567,916172) (2377201,2331266) (1641893,400727) (662376,230180) (1023946,2048459) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 2 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 6.77791 seconds, throughput was 383732 values tested per second.
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (2562618,1300625) (865916,2007980) (1793096,1807121) (1147644,1443101) (1593560,141974) (613573,1531117) (809312,741071) (2545593,1876038) (221788,2331266) (1709872,1577725) (4595,1242919) (99491,1919071) (688808,916172) (2570818,400727) (1927267,1971887) (1154780,806403) (1448563,300960) (1439321,1767786) (2316958,2273875) (2203341,1945945) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 4 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 3.4168 seconds, throughput was 761209 values tested per second.
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (497869,1271553) (2435086,1746843) (271027,2048459) (1179861,2362173) (745538,2469568) (595313,2444346) (2338873,2359121) (509616,916172) (2426183,444305) (975328,778471) (123846,40662) (1191335,1945945) (546509,898392) (1116550,875475) (483163,1472139) (304938,1617592) (1730320,1252511) (1890741,1244344) (1744241,1903647) (2144493,1822598) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 8 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 1.90879 seconds, throughput was 1.36259e+06 values tested per second.
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (583715,186945) (2265368,729350) (1763490,1354774) (577137,748939) (1771742,56932) (332726,1945945) (1713091,2178638) (156829,2224565) (851626,1618028) (2512893,23235) (1311776,8404) (2342178,1324255) (22437,2075243) (2097468,1081000) (2449281,801146) (2137046,200949) (1691504,819053) (947991,2265833) (1002992,703321) (355627,1251561) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 12 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 1.30097 seconds, throughput was 1.99921e+06 values tested per second.
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (2477675,514500) (1183103,1945945) (253179,1004899) (1173884,2306700) (1645200,912069) (577612,2517467) (2196473,400082) (2154068,2048459) (1634752,1987575) (2247716,237049) (179083,1491137) (235583,1658802) (104909,1415520) (1809408,1856203) (624086,1668644) (657860,2378224) (420771,1698783) (1634354,1363333) (241056,1761666) (677318,666929) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 16 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 0.982457 seconds, throughput was 2.64735e+06 values tested per second.
+nr003 make
+gcc -I./. -O3 -g -fopenmp -o main.o -lm -c main.c
+gcc  ././main.o ././functions.o -I./. -O3 -g -fopenmp -o main -lm
+nr003 ./main
+Enter a number of bits: 22
+
+ElGamal Setup successful.
+p = 2600903.
+g = 334796 is a generator of Z_2600903
+Secret key: x = 783795
+h = g^x = 1976666
+
+Message = "Hello, this is the message as a string."
+Padded Message = "Hello, this is the message as a string. "
+The encrypted text is:  (548571,2001509) (1809563,940979) (1113634,194498) (1748741,1131339) (1591255,1755255) (1222415,1770337) (1262207,1610794) (1296715,59749) (400197,1351256) (1398536,265786) (261064,2419977) (1011478,875475) (782568,1383277) (2458055,2428208) (1852592,2486724) (2422767,1548167) (2147075,2477720) (2213774,662485) (562103,152602) (2316831,1194613) ]
+Decrypted Message = "Hello, this is the message as a string. "
+
+Using 20 OpenMP threads to find the secret key...
+Secret key found! x = 783795
+Searching all keys took 0.788451 seconds, throughput was 3.29875e+06 values tested per second.
