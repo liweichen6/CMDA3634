@@ -9,7 +9,7 @@
 
 int main (int argc, char **argv) {
 
-  int Nthreads = 1;
+  int Nthreads = 4;
 
   omp_set_num_threads(Nthreads);
 
@@ -88,16 +88,15 @@ int main (int argc, char **argv) {
 
   /* Q2.3 Parallelize this loop with OpenMP   */
   double startTime = omp_get_wtime();
-  int found = 0;
-  #pragma omp parallel shared(found)
+  unsigned int i = 0;
+  #pragma omp parallel shared(i)
   {
     #pragma omp for
-    for (unsigned int i=0;i<p-1;i++) {
+    for (i=0;i<p-1;i++) {
       if (modExp(g,i+1,p)==h) {
         printf("Secret key found! x = %u \n", i + 1);
-        found = 1;
+        i = p;
       } 
-      if (found == 1) break;
     }
   }
   double endTime = omp_get_wtime();
