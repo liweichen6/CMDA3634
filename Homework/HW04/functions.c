@@ -207,22 +207,22 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
     if (Nchars == Nints) {
         #pragma omp parallel for
         for (unsigned int i = 0; i < Nints; i++) {
-            Z[i] = (int) string[i];
+            Z[i] = (unsigned int) string[i];
         }
     }
     if (Nchars / Nints == 2) {
         #pragma omp parallel for
         for (unsigned int i = 0; i < Nints; i++) {
-            Z[i] = 1000 * (int) string[2 * i] 
-                + (int) string[2 * i + 1];
+            Z[i] = 1000 * (unsigned int) string[2 * i] 
+                + (unsigned int) string[2 * i + 1];
         }
     }
     else {
         #pragma omp parallel for
         for (unsigned int i = 0; i < Nints; i++) {
-            Z[i] = 1000000 * (int) string[3 * i] 
-                + 1000 * (int) string[3 * i + 1] 
-                + (int) string[3 * i + 2];
+            Z[i] = 1000000 * (unsigned int) string[3 * i] 
+                + 1000 * (unsigned int) string[3 * i + 1] 
+                + (unsigned int) string[3 * i + 2];
         }
     }
 }
@@ -236,22 +236,22 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
     if (Nchars == Nints) {
         #pragma omp parallel for
         for (unsigned int i = 0; i < Nints; i++) {
-            string[i] = (char) Z[i];
+            string[i] = (unsigned char) Z[i];
         }
     }
     if (Nchars / Nints == 2) {
         #pragma omp parallel for
         for (unsigned int i = 0; i < Nints; i++) {
-            string[2 * i] = (char) (Z[i] / 1000);
-            string[2 * i + 1] = (char) (Z[i] % 1000);
+            string[2 * i] = (unsigned char) (Z[i] / 1000);
+            string[2 * i + 1] = (unsigned char) (Z[i] % 1000);
         }
     }
     else {
         #pragma omp parallel for
         for (unsigned int i = 0; i < Nints; i++) {
-            string[3 * i] = (char) (Z[i] / 1000000);
-            string[3 * i + 1] = (char) (Z[i] / 1000 % 1000);
-            string[3 * i + 2] = (char) (Z[i] % 1000);
+            string[3 * i] = (unsigned char) (Z[i] / 1000000);
+            string[3 * i + 1] = (unsigned char) (Z[i] / 1000 % 1000);
+            string[3 * i + 2] = (unsigned char) (Z[i] % 1000);
         }
     }
 }
