@@ -88,7 +88,7 @@ int main (int argc, char **argv) {
 
   /* Q2.3 Parallelize this loop with OpenMP   */
   double startTime = omp_get_wtime();
-  unsigned int i = 0;
+  unsigned int i;
   #pragma omp parallel shared(i)
   {
     #pragma omp for
