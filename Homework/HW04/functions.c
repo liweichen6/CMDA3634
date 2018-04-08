@@ -152,7 +152,7 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
                     unsigned int p, unsigned int g, unsigned int h) {
 
   /* Q2.2 Parallelize this function with OpenMP   */
-
+  #pragma omp parallel for
   for (unsigned int i=0; i<Nints;i++) {
     //pick y in Z_p randomly
     unsigned int y;
@@ -175,7 +175,7 @@ void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
                     unsigned int p, unsigned int x) {
 
   /* Q2.2 Parallelize this function with OpenMP   */
-
+  #pragma omp parallel for
   for (unsigned int i=0; i<Nints;i++) {
     //compute s = a^x
     unsigned int s = modExp(a[i],x,p);
@@ -194,7 +194,7 @@ void padString(unsigned char* string, unsigned int charsPerInt) {
 
   /* Q1.2 Complete this function   */
   while (strlen(string) % charsPerInt != 0) {
-    string = string + " ";
+    strcat(string, " ");
   }
 }
 
@@ -204,9 +204,26 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
 
   /* Q1.3 Complete this function   */
   /* Q2.1 Parallelize this function with OpenMP   */
-    #pragma omp parallel for
-    for (Nints = 0; Nints < Nchars; Nints++) {
-        Z[Nints] = (int) string[Nints];
+    if (Nchars == Nints) {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            Z[i] = (int) string[i];
+        }
+    }
+    if (Nchars / Nints == 2) {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            Z[i] = 1000 * (int) string[2 * i] 
+                + (int) string[2 * i + 1];
+        }
+    }
+    else {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            Z[i] = 1000000 * (int) string[3 * i] 
+                + 1000 * (int) string[3 * i + 1] 
+                + (int) string[3 * i + 2];
+        }
     }
 }
 
@@ -216,9 +233,25 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
 
   /* Q1.4 Complete this function   */
   /* Q2.1 Parallelize this function with OpenMP   */
-    #pragma omp parallel for
-    for (Nchars = 0; Nchars < Nints; Nchars++) {
-        string[Nchars] = (char) Z[Nchars];
+    if (Nchars == Nints) {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            string[i] = (char) Z[i];
+        }
+    }
+    if (Nchars / Nints == 2) {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            string[2 * i] = (char) (Z[i] / 1000);
+            string[2 * i + 1] = (char) (Z[i] % 1000);
+        }
+    }
+    else {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            string[3 * i] = (char) (Z[i] / 1000000);
+            string[3 * i + 1] = (char) (Z[i] / 1000 % 1000);
+            string[3 * i + 2] = (char) (Z[i] % 1000);
+        }
     }
 }
-
