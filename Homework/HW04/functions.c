@@ -255,3 +255,41 @@ void convertZToString(unsigned int  *Z,      unsigned int Nints,
         }
     }
 }
+
+/* Q.Bonus */
+void convertEncryptToString(unsigned int *Z, unsigned int *a, 
+        unsigned int Nints, unsigned int charsPerInt, unsigned char *S) {
+    if (charsPerInt == 1) {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            S[4 * i] = (unsigned char) (Z[i] / 256);
+            S[4 * i + 1] = (unsigned char) (Z[i] % 256);
+            S[4 * i + 2] = (unsigned char) (a[i] / 256);
+            S[4 * i + 3] = (unsigned char) (a[i] % 256);
+        }
+    }
+    else if (charsPerInt == 2) {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            S[6 * i] = (unsigned char) (Z[i] / 65536);
+            S[6 * i + 1] = (unsigned char) (Z[i] / 256 % 256);
+            S[6 * i + 2] = (unsigned char) (Z[i] % 256);
+            S[6 * i + 3] = (unsigned char) (a[i] / 65536);
+            S[6 * i + 4] = (unsigned char) (a[i] / 256 % 256);
+            S[6 * i + 5] = (unsigned char) (a[i] % 256);
+        }
+    }
+    else {
+        #pragma omp parallel for
+        for (unsigned int i = 0; i < Nints; i++) {
+            S[8 * i] = (unsigned char) (Z[i] / 16777216);
+            S[8 * i + 1] = (unsigned char) (Z[i] % 16777216 / 65536);
+            S[8 * i + 2] = (unsigned char) (Z[i] % 65536 / 256);
+            S[8 * i + 3] = (unsigned char) (Z[i] % 256);
+            S[8 * i + 4] = (unsigned char) (a[i] / 16777216);
+            S[8 * i + 5] = (unsigned char) (a[i] % 16777216 / 65536);
+            S[8 * i + 6] = (unsigned char) (a[i] % 65536 / 256);
+            S[8 * i + 7] = (unsigned char) (a[i] % 256);
+        }
+    }
+}

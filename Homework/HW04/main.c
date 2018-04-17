@@ -9,7 +9,7 @@
 
 int main (int argc, char **argv) {
 
-  int Nthreads = 4;
+  int Nthreads = 12;
 
   omp_set_num_threads(Nthreads);
 
@@ -72,7 +72,12 @@ int main (int argc, char **argv) {
   for (unsigned int i=0;i<Nints;i++) {
     printf("(%u,%u) ", Zmessage[i], a[i]);
   }
-  printf("]\n");
+  printf("\n");
+
+  /* Q.Bonus */
+  unsigned char *S = (unsigned char *) malloc(bufferSize * sizeof(unsigned char)); 
+  convertEncryptToString(Zmessage, a, Nints, charsPerInt, S);
+  printf("Convert the encrypted text to a string = \"%s\"\n", S);
 
   //Decrypt the Zmessage with the ElGamal cyrptographic system
   ElGamalDecrypt(Zmessage,a,Nints,p,x);

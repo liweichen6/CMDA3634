@@ -40,3 +40,7 @@ void convertStringToZ(unsigned char *string, unsigned int Nchars,
 
 void convertZToString(unsigned int  *Z,      unsigned int Nints,
                       unsigned char *string, unsigned int Nchars);
+
+//Bonus
+void convertEncryptToString(unsigned int *Z, unsigned int *a, 
+        unsigned int Nints, unsigned int charsPerInt, unsigned char *S);
