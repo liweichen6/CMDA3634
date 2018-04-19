@@ -1,0 +1,18 @@
+running serial version with n.pts =  1e+07 
+     pi estimate =  3.141329 
+  relative error =  8.385988e-05 
+       time used =  48.39699 
+running parallel version with n.pts =  1e+07  and ncores =  16  ( 625000  pts per core) 
+     pi estimate =  3.141502 
+  relative error =  2.885593e-05 
+  computational time =  4.906955 
+          total time =  6.548779 
+running parallel version with n.pts =  1e+07  and ncores =  16  ( 625000  pts per core) 
+     pi estimate =  3.141402 
+  relative error =  6.068692e-05 
+  computational time =  2.612764 
+          total time =  2.614708 
+[1] "running pbdMPI version with n.pts =  1e+07  and nranks =  4  ( 2500000  pts per rank) \n"
+[1] "approximate value of pi is:  3.1422852 \n"
+[1] "            relative error:  0.000220444369009911 \n"
+[1] "  computational time =  11.5742778778076 \n"

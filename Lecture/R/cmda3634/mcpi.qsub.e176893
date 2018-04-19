@@ -1,0 +1,7 @@
+MKL_NUM_THREADS=1, for better performance, increase this up to PBS_NUM_PPN, ie number of cores requested per node
+On unloading R, dependent module will remain, use module purge
+or remove as desired
+mkl
+On unloading R-parallel, dependent modules will remain, use module purge
+or remove as desired
+hdf5/1.8.16, netcdf-c/4.4.0
