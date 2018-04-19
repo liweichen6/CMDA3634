@@ -80,6 +80,7 @@ unsigned int isProbablyPrime(unsigned int N) {
   }
 
   //if we're testing a large number switch to Miller-Rabin primality test
+  /* Q2.1: Complete this part of the isProbablyPrime function using the Miller-Rabin pseudo-code */
   unsigned int r = 0;
   unsigned int d = N-1;
   while (d%2 == 0) {
@@ -151,8 +152,6 @@ void setupElGamal(unsigned int n, unsigned int *p, unsigned int *g,
 void ElGamalEncrypt(unsigned int *m, unsigned int *a, unsigned int Nints, 
                     unsigned int p, unsigned int g, unsigned int h) {
 
-  /* Q2.2 Parallelize this function with OpenMP   */
-  #pragma omp parallel for
   for (unsigned int i=0; i<Nints;i++) {
     //pick y in Z_p randomly
     unsigned int y;
@@ -174,8 +173,6 @@ void ElGamalEncrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
 void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
                     unsigned int p, unsigned int x) {
 
-  /* Q2.2 Parallelize this function with OpenMP   */
-  #pragma omp parallel for
   for (unsigned int i=0; i<Nints;i++) {
     //compute s = a^x
     unsigned int s = modExp(a[i],x,p);
@@ -192,104 +189,50 @@ void ElGamalDecrypt(unsigned int *m, unsigned int *a, unsigned int Nints,
 // Assume there is enough allocated storage for the padded string 
 void padString(unsigned char* string, unsigned int charsPerInt) {
 
-  /* Q1.2 Complete this function   */
-  while (strlen(string) % charsPerInt != 0) {
-    strcat(string, " ");
+  int length    = mystrlen(string);
+  int newlength = (length%charsPerInt==0) ? length : length + charsPerInt-length%charsPerInt;
+
+  for (int i=length; i<newlength; i++) {
+    string[i] = ' ';
   }
+  string[newlength] = '\0';
 }
 
 
 void convertStringToZ(unsigned char *string, unsigned int Nchars,
                       unsigned int  *Z,      unsigned int Nints) {
 
-  /* Q1.3 Complete this function   */
-  /* Q2.1 Parallelize this function with OpenMP   */
-    if (Nchars == Nints) {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            Z[i] = (unsigned int) string[i];
-        }
+  unsigned int charsPerInt = Nchars/Nints;
+
+  for (int i=0; i<Nints; i++) {
+    Z[i] = 0;
+    for (int n=0;n<charsPerInt;n++) {
+      Z[i] *= 256; //shift left by 8 bits
+      Z[i] += (unsigned int) string[i*charsPerInt + n]; //add the next character as a uint
     }
-    if (Nchars / Nints == 2) {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            Z[i] = 256 * (unsigned int) string[2 * i] 
-                + (unsigned int) string[2 * i + 1];
-        }
-    }
-    else {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            Z[i] = 65536 * (unsigned int) string[3 * i] 
-                + 256 * (unsigned int) string[3 * i + 1] 
-                + (unsigned int) string[3 * i + 2];
-        }
-    }
+  }
 }
 
 
 void convertZToString(unsigned int  *Z,      unsigned int Nints,
                       unsigned char *string, unsigned int Nchars) {
 
-  /* Q1.4 Complete this function   */
-  /* Q2.1 Parallelize this function with OpenMP   */
-    if (Nchars == Nints) {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            string[i] = (unsigned char) Z[i];
-        }
+  unsigned int charsPerInt = Nchars/Nints;
+
+  for (int i=0; i<Nints; i++) {
+    unsigned int z = Z[i];
+    for (int n=0;n<charsPerInt;n++) {
+      string[i*charsPerInt + charsPerInt -1 - n] = z%256; // recover the character in the first 8 bits
+      z /= 256; //shift right 8 bits
     }
-    if (Nchars / Nints == 2) {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            string[2 * i] = (unsigned char) (Z[i] / 256);
-            string[2 * i + 1] = (unsigned char) (Z[i] % 256);
-        }
-    }
-    else {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            string[3 * i] = (unsigned char) (Z[i] / 65536);
-            string[3 * i + 1] = (unsigned char) (Z[i] / 256 % 256);
-            string[3 * i + 2] = (unsigned char) (Z[i] % 256);
-        }
-    }
+  }
+  string[Nints*charsPerInt] = '\0';
 }
 
-/* Q.Bonus */
-void convertEncryptToString(unsigned int *Z, unsigned int *a, 
-        unsigned int Nints, unsigned int charsPerInt, unsigned char *S) {
-    if (charsPerInt == 1) {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            S[4 * i] = (unsigned char) (Z[i] / 256);
-            S[4 * i + 1] = (unsigned char) (Z[i] % 256);
-            S[4 * i + 2] = (unsigned char) (a[i] / 256);
-            S[4 * i + 3] = (unsigned char) (a[i] % 256);
-        }
-    }
-    else if (charsPerInt == 2) {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            S[6 * i] = (unsigned char) (Z[i] / 65536);
-            S[6 * i + 1] = (unsigned char) (Z[i] / 256 % 256);
-            S[6 * i + 2] = (unsigned char) (Z[i] % 256);
-            S[6 * i + 3] = (unsigned char) (a[i] / 65536);
-            S[6 * i + 4] = (unsigned char) (a[i] / 256 % 256);
-            S[6 * i + 5] = (unsigned char) (a[i] % 256);
-        }
-    }
-    else {
-        #pragma omp parallel for
-        for (unsigned int i = 0; i < Nints; i++) {
-            S[8 * i] = (unsigned char) (Z[i] / 16777216);
-            S[8 * i + 1] = (unsigned char) (Z[i] % 16777216 / 65536);
-            S[8 * i + 2] = (unsigned char) (Z[i] % 65536 / 256);
-            S[8 * i + 3] = (unsigned char) (Z[i] % 256);
-            S[8 * i + 4] = (unsigned char) (a[i] / 16777216);
-            S[8 * i + 5] = (unsigned char) (a[i] % 16777216 / 65536);
-            S[8 * i + 6] = (unsigned char) (a[i] % 65536 / 256);
-            S[8 * i + 7] = (unsigned char) (a[i] % 256);
-        }
-    }
+//cuda surprisingly doesn't have a strlen function for unsigned chars....
+unsigned int mystrlen(unsigned char* string) {
+
+  int i=0;
+  while (string[i]!='\0') i++;
+  return i;
 }
