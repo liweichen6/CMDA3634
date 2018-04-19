@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#PBS -lnodes=1:ppn=4
+#PBS -lwalltime=0:05:00
+#PBS -qnormal_q
+#PBS -Wgroup_list=newriver
+#PBS -ACMDA3634SP18
+
+cd $PBS_O_WORKDIR
+
+#load R and R-parallel
+module purge
+module load intel mkl R/3.4.4
+module load openmpi hdf5 netcdf R-parallel/3.4.4
+
+#run the serial version
+Rscript run_mcpi.r
+
+#run the parallel version with parRapply
+Rscript mcpi_parallel_apply.r
+
+#run the parallel version with mclapply
+Rscript mcpi_parallel_mc.r
+
+#run the pbdr version
+mpiexec -np $PBS_NP Rscript mcpi_pbdr.r
