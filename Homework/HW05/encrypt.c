@@ -28,7 +28,27 @@ int main (int argc, char **argv) {
   /* Q2 Complete this function. Read in the public key data from public_key.txt,
     convert the string to elements of Z_p, encrypt them, and write the cyphertexts to 
     message.txt */
+  FILE *pkey = fopen("public_key.txt", "r");
+  FILE *mes = fopen("message.txt", "w");
 
-  
+  fscanf(pkey, "%u%u%u%u", &n, &p, &g, &h);
+
+  unsigned int charsPerInt = (n - 1) / 8;
+  padString(message, charsPerInt);
+  unsigned int Nchars = strlen(message);
+  unsigned int Nints  = strlen(message) / charsPerInt;
+  unsigned int *Zmessage = (unsigned int *) malloc(Nints * sizeof(unsigned int));
+  unsigned int *a = (unsigned int *) malloc(Nints * sizeof(unsigned int));
+  convertStringToZ(message, Nchars, Zmessage, Nints);
+  ElGamalEncrypt(Zmessage, a, Nints, p, g, h);
+
+  fprintf(mes, "%u\n", Nints);
+  for (unsigned int i = 0; i < Nints; i++) {
+    fprintf(mes, "%u %u\n", Zmessage[i], a[i]);
+  }
+
+  fclose(pkey);
+  fclose(mes);
+
   return 0;
 }
